@@ -1,4 +1,4 @@
-theme: osuny
+theme: osuny-www-design-system
 _merge: deep
 params:
   summary:
