@@ -1,13 +1,4 @@
 theme: osuny-www-design-system
 _merge: deep
 params:
-  summary:
-    position: hero
-  search:
-    active: true
-  logo:
-    header: ''
-    footer: ''
-  home:
-    head:
-      title: site
+  additional_csp: 'api.fontsource.org registry.npmjs.org data.jsdelivr.com cdn.jsdelivr.net'
