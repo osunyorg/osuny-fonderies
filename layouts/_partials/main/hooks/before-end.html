@@ -1,0 +1,6 @@
+{{ if and (eq .Type "organizations") .IsPage }}
+  {{ $path := printf "custom/downloaders/%s.html" .Params.slug }}
+  {{ if templates.Exists (printf "_partials/%s" $path) }}
+    {{ partial $path . }}
+  {{ end }}
+{{ end }}

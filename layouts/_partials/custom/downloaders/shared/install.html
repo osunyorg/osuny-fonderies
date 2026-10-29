@@ -1,0 +1,41 @@
+{{/*
+  Étape « Télécharger et installer », commune aux outils de fontes.
+  Le JS de l'outil remplit #dl-snippet-fonts, #dl-snippet-config, #dl-summary et les statuts
+  (voir assets/js/downloaders/shared/output.js), et affiche la section quand une fonte est choisie.
+  Paramètre docUrl : la documentation Osuny sur les polices.
+*/}}
+<section id="dl-install" class="block block-downloader block-titled" aria-labelledby="dl-install-title" hidden>
+  <div class="container">
+    <div class="block-content">
+      <div class="top">
+        <h2 class="block-title" id="dl-install-title">3. Télécharger et installer</h2>
+      </div>
+      <div class="downloader-download">
+        <button id="dl-download" type="button" class="button">Télécharger le zip</button>
+        <p id="dl-summary" class="downloader-note"></p>
+      </div>
+      <p id="dl-download-status" class="downloader-status" role="status" aria-live="polite"></p>
+      <ol class="downloader-guide">
+        <li><p>Décompressez le zip et copiez son dossier <code>static/</code> à la racine du dépôt du site&nbsp;: les fichiers rejoignent <code>static/assets/fonts/</code>.</p></li>
+        <li>
+          <p>Collez ces déclarations dans <code>assets/sass/_fonts.sass</code>&nbsp;:</p>
+          <div class="downloader-snippet">
+            <button type="button" class="button button--small downloader-outline" data-dl-copy="dl-snippet-fonts" aria-label="Copier les déclarations de fontes">Copier</button>
+            <pre><code id="dl-snippet-fonts"></code></pre>
+          </div>
+          <p id="dl-multi-subset-note" class="downloader-note" hidden>Avec plusieurs jeux de caractères, les déclarations sont écrites en <code>@font-face</code> avec <code>unicode-range</code>, que le mixin du thème ne gère pas. Le navigateur ne charge ainsi que les fichiers utiles à chaque page.</p>
+        </li>
+        <li>
+          <p>Dans <code>assets/sass/_configuration.sass</code>, remplacez les lignes <code>$heading-font-family</code> et <code>$body-font-family</code> par&nbsp;:</p>
+          <div class="downloader-snippet">
+            <button type="button" class="button button--small downloader-outline" data-dl-copy="dl-snippet-config" aria-label="Copier la configuration">Copier</button>
+            <pre><code id="dl-snippet-config"></code></pre>
+          </div>
+        </li>
+        <li><p>Lancez <code>yarn osuny dev</code>, puis vérifiez dans l’onglet Réseau des outils de développement que les fontes viennent de <code>/assets/fonts/</code> et qu’aucune requête ne part vers un service tiers.</p></li>
+        <li><p>Committez et poussez&nbsp;: la prochaine compilation du site embarque les fontes.</p></li>
+      </ol>
+      <p class="downloader-note">Le zip contient aussi ces extraits, un fichier <code>LISEZMOI.md</code> et les licences. Référence&nbsp;: <a href="{{ .docUrl }}">documentation Osuny sur les polices</a>.</p>
+    </div>
+  </div>
+</section>

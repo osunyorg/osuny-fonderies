@@ -1,0 +1,98 @@
+{{/*
+  Aide au téléchargement des fontes Google Fonts, via Fontsource.
+  Le comportement est dans assets/js/downloaders/google-fonts/, le style dans assets/sass/downloaders/_google-fonts.sass.
+  L'étape « Télécharger et installer » est commune aux outils de fontes : custom/downloaders/shared/install.html.
+  On peut présélectionner des fontes par l'adresse : /organisations/google-fonts/?fonte=raleway&fonte=lora
+*/}}
+{{ $docUrl := "https://developers.osuny.org/docs/website/coder-le-site/fonts/" }}
+<div class="downloader" data-downloader="google-fonts" data-doc-url="{{ $docUrl }}">
+  <noscript>
+    <div class="container">
+      <p>L’aide au téléchargement a besoin de JavaScript.</p>
+    </div>
+  </noscript>
+
+  <section class="block block-downloader block-titled" aria-labelledby="dl-choose-title">
+    <div class="container">
+      <div class="block-content">
+        <div class="top">
+          <h2 class="block-title" id="dl-choose-title">1. Choisir les fontes</h2>
+        </div>
+        <label class="downloader-label" for="dl-search">Rechercher une fonte</label>
+        <input id="dl-search" type="search" autocomplete="off" spellcheck="false" placeholder="Inter, Lora, Fraunces…" aria-describedby="dl-catalog-status" aria-controls="dl-results">
+        <p id="dl-catalog-status" class="downloader-note">Chargement du catalogue Fontsource…</p>
+        <p class="downloader-suggestions">Pour commencer&nbsp;:
+          <button type="button" class="downloader-link" data-dl-suggestion="inclusive-sans" data-family="Inclusive Sans">Inclusive Sans</button>,
+          <button type="button" class="downloader-link" data-dl-suggestion="atkinson-hyperlegible-next" data-family="Atkinson Hyperlegible Next">Atkinson Hyperlegible Next</button>,
+          <button type="button" class="downloader-link" data-dl-suggestion="source-serif-4" data-family="Source Serif 4">Source Serif 4</button>,
+          <button type="button" class="downloader-link" data-dl-suggestion="fraunces" data-family="Fraunces">Fraunces</button>.
+        </p>
+        <ul id="dl-results" class="downloader-results" hidden></ul>
+        <p id="dl-status" class="downloader-status" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="dl-tune" class="block block-downloader block-titled" aria-labelledby="dl-tune-title" hidden>
+    <div class="container">
+      <div class="block-content">
+        <div class="top">
+          <h2 class="block-title" id="dl-tune-title">2. Régler et prévisualiser</h2>
+        </div>
+        <div class="downloader-roles">
+          <div>
+            <label class="downloader-label" for="dl-heading">Fonte des titres</label>
+            <select id="dl-heading"></select>
+          </div>
+          <div>
+            <label class="downloader-label" for="dl-body">Fonte du texte</label>
+            <select id="dl-body"></select>
+          </div>
+        </div>
+        <div class="downloader-preview">
+          <p id="dl-pv-title" class="downloader-pv-title">Portez ce vieux whisky au juge blond qui fume</p>
+          <p id="dl-pv-sub" class="downloader-pv-sub">Un intertitre en gras</p>
+          <p id="dl-pv-body" class="downloader-pv-body">Les fontes sont servies par votre propre site&nbsp;: <strong>aucune requête</strong> ne part vers un service tiers, et chaque visiteur ne télécharge que <em>les fichiers dont la page a besoin</em>. Chiffres&nbsp;: 0123456789.</p>
+        </div>
+        <div class="downloader-sample">
+          <label class="downloader-label" for="dl-sample">Texte de l’aperçu</label>
+          <input id="dl-sample" type="text" value="Portez ce vieux whisky au juge blond qui fume">
+        </div>
+        <div id="dl-font-blocks"></div>
+      </div>
+    </div>
+  </section>
+
+  {{/* Réglages d'une fonte, clonés par assets/js/downloaders/google-fonts/FontBlock.js */}}
+  <template id="dl-font-template">
+    <article class="downloader-font">
+      <div class="downloader-font-head">
+        <div>
+          <h3 class="downloader-font-name" data-dl="name"></h3>
+          <p class="downloader-font-meta" data-dl="meta"></p>
+        </div>
+        <button type="button" class="button button--small downloader-outline" data-dl="remove">Retirer</button>
+      </div>
+      <div class="downloader-options">
+        <fieldset>
+          <legend>Graisses</legend>
+          <div class="downloader-choices" data-dl="weights"></div>
+        </fieldset>
+        <fieldset data-dl="italic-field">
+          <legend>Style</legend>
+          <div class="downloader-choices">
+            <label class="downloader-choice"><input type="checkbox" data-dl="italic">Italique</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Jeux de caractères</legend>
+          <div class="downloader-choices" data-dl="subsets"></div>
+          <p class="downloader-hint">« latin » suffit pour le français.</p>
+        </fieldset>
+      </div>
+      <ul class="downloader-warnings" data-dl="warnings" hidden></ul>
+    </article>
+  </template>
+
+  {{ partial "custom/downloaders/shared/install.html" (dict "docUrl" $docUrl) }}
+</div>

@@ -1,0 +1,122 @@
+// Styles communs aux outils d'aide au téléchargement
+// Markup : layouts/_partials/custom/downloaders/, dont shared/install.html
+
+$downloader-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace
+$downloader-muted: $color-accent
+$downloader-error: #A3222B
+$downloader-ok: #1D6B45
+
+.downloader
+    [hidden]
+        display: none !important
+    code
+        font-family: $downloader-mono
+        font-size: 0.85em
+    input[type="search"],
+    input[type="text"],
+    select
+        width: 100%
+        font: inherit
+        color: $color-text
+        background: $color-background
+        border: 1px solid $color-text
+        border-radius: pxToRem(40)
+        padding: pxToRem(12) pxToRem(20) pxToRem(13)
+    input[type="radio"],
+    input[type="checkbox"]
+        accent-color: $color-text
+        width: pxToRem(17)
+        height: pxToRem(17)
+        margin: 0
+        flex: none
+    fieldset
+        border: 0
+        margin: 0
+        padding: 0
+        min-width: 0
+    legend
+        @include small
+        font-weight: bold
+        padding: 0
+        margin-bottom: $spacing-1
+
+.downloader-label
+    @include small
+    display: block
+    font-weight: bold
+    margin-bottom: $spacing-1
+
+.downloader-note
+    @include small
+    color: $downloader-muted
+    margin: $spacing-2 0 0
+    max-width: 40em
+
+.downloader-status
+    @include small
+    min-height: 1.5em
+    margin: $spacing-2 0 0
+    &[data-kind="error"]
+        color: $downloader-error
+    &[data-kind="ok"]
+        color: $downloader-ok
+
+.downloader-link
+    @include button-reset
+    font: inherit
+    color: $color-text
+    text-decoration: underline
+    text-underline-offset: 0.15em
+    cursor: pointer
+
+// Bouton secondaire, contour noir
+.button.downloader-outline
+    --btn-color: #{$color-text}
+    --btn-background: transparent
+    --btn-border: 1px solid #{$color-text}
+    --btn-hover-color: #{$color-background}
+    --btn-hover-background: #{$color-text}
+    --btn-hover-border: 1px solid #{$color-text}
+    --btn-min-width: 0
+
+// Téléchargement et guide
+.downloader-download
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    gap: $spacing-2 $spacing-3
+    margin-top: $spacing-3
+    .downloader-note
+        margin: 0
+    .button:disabled
+        opacity: 0.4
+        cursor: default
+
+.downloader-guide
+    list-style: decimal
+    margin: $spacing-4 0 0
+    padding-left: pxToRem(24)
+    > li
+        margin-bottom: $spacing-3
+        padding-left: pxToRem(4)
+        &::marker
+            font-weight: bold
+    p
+        margin: 0
+        max-width: 40em
+
+.downloader-snippet
+    position: relative
+    margin-top: $spacing-2
+    pre
+        margin: 0
+        background: $color-background-alt
+        padding: pxToRem(48) $spacing-3 $spacing-3
+        overflow-x: auto
+        font: normal #{pxToRem(13)}/1.6 $downloader-mono
+    pre code
+        font-size: inherit
+    .button
+        position: absolute
+        top: pxToRem(10)
+        right: pxToRem(10)

@@ -1,0 +1,162 @@
+// Aide au téléchargement des fontes (page Google Fonts), en plus de _shared.sass
+// Markup : layouts/_partials/custom/downloaders/google-fonts.html
+
+.downloader-suggestions
+    @include small
+    color: $downloader-muted
+    margin: $spacing-2 0 0
+
+.downloader-results
+    list-style: none
+    margin: $spacing-3 0 0
+    padding: 0
+    max-height: pxToRem(384)
+    overflow-y: auto
+    border-bottom: 1px solid $color-border
+    li
+        border-top: 1px solid $color-border
+    .downloader-empty
+        padding: $spacing-2 pxToRem(4)
+        color: $downloader-muted
+
+.downloader-result
+    @include button-reset
+    display: flex
+    justify-content: space-between
+    align-items: baseline
+    gap: $spacing-3
+    width: 100%
+    text-align: left
+    font: inherit
+    color: inherit
+    padding: $spacing-2 pxToRem(4)
+    cursor: pointer
+    &:hover
+        background: $color-background-alt
+    &:focus-visible
+        outline-offset: -3px
+    &:disabled
+        cursor: default
+        color: $downloader-muted
+        background: none
+
+.downloader-result-meta
+    @include small
+    color: $downloader-muted
+    white-space: nowrap
+
+// Fonte des titres et fonte du texte
+.downloader-roles
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(pxToRem(224), 1fr))
+    gap: $spacing-3
+    margin-bottom: $spacing-3
+
+// Aperçu, sur le fond alternatif d'osuny.org
+.downloader-preview
+    background: $color-background-alt
+    padding: $spacing-3
+    overflow: hidden
+    @include media-breakpoint-up(desktop)
+        padding: $spacing-5
+    p
+        margin: 0
+
+.downloader-pv-title
+    font-size: clamp(#{pxToRem(34)}, 6vw, #{pxToRem(64)})
+    font-weight: normal
+    line-height: 1.08
+    overflow-wrap: anywhere
+    margin-bottom: $spacing-3 !important
+
+.downloader-pv-sub
+    font-size: pxToRem(28)
+    font-weight: bold
+    line-height: 1.2
+    margin-bottom: $spacing-1 !important
+
+.downloader-pv-body
+    font-size: pxToRem(20)
+    line-height: 1.55
+    max-width: 34em
+
+.downloader-sample
+    margin-top: $spacing-3
+
+// Réglages d'une fonte
+.downloader-font
+    border-top: 1px solid $color-text
+    padding: $spacing-3 0 $spacing-4
+    margin-top: $spacing-4
+
+.downloader-font-head
+    display: flex
+    justify-content: space-between
+    align-items: flex-start
+    gap: $spacing-3
+    @include media-breakpoint-down(sm)
+        flex-direction: column
+
+.downloader-font-name
+    font-size: clamp(#{pxToRem(32)}, 4.5vw, #{pxToRem(48)})
+    font-weight: normal
+    line-height: 1.1
+    margin: 0
+    overflow-wrap: anywhere
+
+.downloader-font-meta
+    @include small
+    color: $downloader-muted
+    margin: $spacing-1 0 0
+
+.downloader-options
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(pxToRem(224), 1fr))
+    gap: $spacing-4 $spacing-3
+    margin-top: $spacing-3
+
+.downloader-choices
+    display: flex
+    flex-wrap: wrap
+    gap: pxToRem(6)
+
+// Pastilles : la case est masquée, la pilule s'inverse quand elle est cochée
+.downloader-choice
+    position: relative
+    display: inline-flex
+    align-items: center
+    padding: pxToRem(4) pxToRem(12) pxToRem(6)
+    border: 1px solid $color-text
+    border-radius: pxToRem(40)
+    font-size: pxToRem(15)
+    font-variant-numeric: tabular-nums
+    cursor: pointer
+    user-select: none
+    input
+        position: absolute
+        opacity: 0
+        width: 1px
+        height: 1px
+    &:has(input:checked)
+        background: $color-text
+        color: $color-background
+    &:has(input:focus-visible)
+        outline: 3px solid $color-accent
+        outline-offset: 2px
+
+.downloader-hint
+    @include small
+    color: $downloader-muted
+    margin: $spacing-1 0 0
+
+.downloader-warnings
+    list-style: none
+    margin: $spacing-3 0 0
+    padding: 0
+    display: grid
+    gap: pxToRem(6)
+    li
+        @include small
+        background: $color-background-alt
+        border-left: 3px solid $color-text
+        padding: $spacing-1 $spacing-2
