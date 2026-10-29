@@ -2,7 +2,8 @@
 
 const bytesCache = new Map();
 
-export async function getJSON(url, timeout = 15000) {
+// Une requête qui abandonne au bout de timeout millisecondes, lecture du contenu comprise
+async function request(url, timeout, read) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeout);
     try {
@@ -10,23 +11,25 @@ export async function getJSON(url, timeout = 15000) {
         if (!response.ok) {
             throw new Error(`erreur ${response.status} sur ${url}`);
         }
-        return await response.json();
+        return await read(response);
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            throw new Error(`délai dépassé sur ${url}`);
+        }
+        throw error;
     } finally {
         clearTimeout(timer);
     }
 }
 
+export function getJSON(url, timeout = 15000) {
+    return request(url, timeout, (response) => response.json());
+}
+
 // Les fichiers servent à l'aperçu puis au zip : on ne les télécharge qu'une fois
-export function getBytes(url) {
+export function getBytes(url, timeout = 30000) {
     if (!bytesCache.has(url)) {
-        const promise = fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`erreur ${response.status} sur ${url}`);
-                }
-                return response.arrayBuffer();
-            })
-            .then((buffer) => new Uint8Array(buffer));
+        const promise = request(url, timeout, async (response) => new Uint8Array(await response.arrayBuffer()));
         promise.catch(() => bytesCache.delete(url));
         bytesCache.set(url, promise);
     }

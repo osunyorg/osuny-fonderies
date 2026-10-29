@@ -40,6 +40,21 @@ $downloader-ok: #1D6B45
         padding: 0
         margin-bottom: $spacing-1
 
+// La flèche native se colle au bord arrondi : on la remplace par l'icône du thème
+.downloader-select
+    position: relative
+    display: block
+    @include icon(arrow-down-s-line, after)
+        position: absolute
+        top: 50%
+        right: pxToRem(20)
+        transform: translateY(-50%)
+        pointer-events: none
+    select
+        appearance: none
+        padding-right: pxToRem(48)
+        cursor: pointer
+
 .downloader-label
     @include small
     display: block

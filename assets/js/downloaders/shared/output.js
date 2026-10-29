@@ -69,21 +69,29 @@ function fontFace(font, face) {
     return lines;
 }
 
+// Une fonte sans fichier n'est pas déclarée dans _fonts.sass : la configuration ne doit pas y renvoyer
+function hasFiles(font) {
+    return Boolean(font) && font.faces().length > 0;
+}
+
+function roleLine(variable, font, label) {
+    if (!font) {
+        return `// Aucune fonte choisie pour ${label} : gardez votre ligne ${variable}`;
+    }
+    if (!hasFiles(font)) {
+        return `// ${font.family} n’a aucun fichier sélectionné : gardez votre ligne ${variable}`;
+    }
+    return `${variable}: ${font.stack()}`;
+}
+
 export function configSass(fonts, { heading, body }) {
-    const lines = [];
-    if (heading) {
-        lines.push(`$heading-font-family: ${heading.stack()}`);
-    } else {
-        lines.push('// Aucune fonte choisie pour les titres : gardez votre ligne $heading-font-family');
-    }
-    if (body && body === heading) {
+    const lines = [roleLine('$heading-font-family', heading, 'les titres')];
+    if (body && body === heading && hasFiles(body)) {
         lines.push('$body-font-family: $heading-font-family');
-    } else if (body) {
-        lines.push(`$body-font-family: ${body.stack()}`);
     } else {
-        lines.push('// Aucune fonte choisie pour le texte : gardez votre ligne $body-font-family');
+        lines.push(roleLine('$body-font-family', body, 'le texte'));
     }
-    fonts.filter((font) => font !== heading && font !== body).forEach((font) => {
+    fonts.filter((font) => font !== heading && font !== body && hasFiles(font)).forEach((font) => {
         lines.push(`// ${font.family} est déclarée, à utiliser dans vos styles : font-family: ${font.stack()}`);
     });
     return lines.join('\n') + '\n';

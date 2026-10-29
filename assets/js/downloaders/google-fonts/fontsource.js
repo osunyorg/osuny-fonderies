@@ -31,7 +31,8 @@ export async function getFont(id) {
     const base = cdnUrl(pkg, version);
     const [meta, unicode, sizes] = await Promise.all([
         getJSON(`${base}/metadata.json`),
-        getJSON(`${base}/unicode.json`).catch(() => ({})),
+        // Obligatoire : sans plages unicode, plusieurs jeux de caractères se marcheraient dessus
+        getJSON(`${base}/unicode.json`),
         getSizes(pkg, version)
     ]);
     if (meta.type && meta.type !== 'google') {

@@ -24,7 +24,8 @@ window.osuny.GoogleFontsDownloader = function (element) {
     this.results = [];
     this.timers = {};
     this.state = {
-        isBusy: false
+        isBusy: false,
+        isCatalogUnreachable: false
     };
     this.listen();
     this.loadCatalog();
@@ -81,6 +82,7 @@ window.osuny.GoogleFontsDownloader.prototype.loadCatalog = async function () {
         this.catalog = await getCatalog();
         status.textContent = `${new Intl.NumberFormat('fr-FR').format(this.catalog.length)} familles dans le catalogue.`;
     } catch {
+        this.state.isCatalogUnreachable = true;
         status.textContent = `Catalogue Fontsource injoignable. ${NETWORK_HINT}`;
     }
     this.renderResults();
@@ -119,10 +121,21 @@ window.osuny.GoogleFontsDownloader.prototype.renderResults = function () {
     } else {
         const empty = document.createElement('li');
         empty.className = 'downloader-empty';
-        empty.textContent = 'Aucune fonte ne correspond à cette recherche.';
+        empty.textContent = this.emptyMessage();
         list.replaceChildren(empty);
     }
     list.hidden = !query;
+};
+
+// Sans résultat, on distingue une recherche infructueuse d'un catalogue absent
+window.osuny.GoogleFontsDownloader.prototype.emptyMessage = function () {
+    if (this.catalog) {
+        return 'Aucune fonte ne correspond à cette recherche.';
+    }
+    if (this.state.isCatalogUnreachable) {
+        return 'Le catalogue est injoignable : la recherche est indisponible.';
+    }
+    return 'Chargement du catalogue…';
 };
 
 window.osuny.GoogleFontsDownloader.prototype.resultItem = function (font) {
